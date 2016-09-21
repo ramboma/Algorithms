@@ -84,7 +84,9 @@ public class Maze {
     public String getPath()
     {
         App.DepthFirstPath firstPath=new App.DepthFirstPath(this.getGraph(),this.start);
+        App.BreadthFirstPath firstBreadthPath=new App.BreadthFirstPath(this.getGraph(),this.start);
         Iterable<Integer> lastPath=firstPath.pathTo(this.end);
+        Iterable<Integer> breadtPath=firstBreadthPath.pathTo(this.end);
         String str="";
         //绘制原始maze
         for(int row=0;row<9;row++)
@@ -96,7 +98,7 @@ public class Maze {
             str+="\r\n";
         }
         str+="=============================================\r\n";
-        //绘制路径
+        //绘制dfs路径
         for(int row=0;row<9;row++)
         {
             for(int col=0;col<10;col++)
@@ -113,9 +115,33 @@ public class Maze {
             str+="\r\n";
         }
         str+="=============================================\r\n";
+        //绘制bfs路径
+        for(int row=0;row<9;row++)
+        {
+            for(int col=0;col<10;col++)
+            {
+                Cell c=getCellByLoc(row,col);
+                if(hasPath(breadtPath,c.getCellValue())) {
+                    str+="X ";
+                }
+                else
+                {
+                    str+=String.format("%d ",mz[row][col]);
+                }
+            }
+            str+="\r\n";
+        }
+        str+="=============================================\r\n";
+        //绘制深度遍历路径
         for(Integer i:lastPath)
         {
            str+=String.format("=>%d",i);
+        }
+        str+="\r\n=============================================\r\n";
+        //绘制广度遍历路径
+        for(Integer i:breadtPath)
+        {
+            str+=String.format("=>%d",i);
         }
         return str;
     }
