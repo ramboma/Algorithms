@@ -1,6 +1,7 @@
 import App.Cell;
 import App.Graphic;
 import App.Maze;
+import App.NQueen;
 import Graphics.DepthFirstPath;
 import Graphics.DepthFirstSearch;
 import Graphics.Graph;
@@ -44,6 +45,10 @@ public class Main {
         }
 
         StdOut.println(maze.getPath());
+
+        NQueen nQueen=new NQueen(8);
+        nQueen.SearchAllResult();
+
 
     }
 }
