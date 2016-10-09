@@ -1,7 +1,4 @@
-import App.Cell;
-import App.Graphic;
-import App.Maze;
-import App.NQueen;
+import App.*;
 import Graphics.DepthFirstPath;
 import Graphics.DepthFirstSearch;
 import Graphics.Graph;
@@ -49,6 +46,14 @@ public class Main {
         NQueen nQueen=new NQueen(8);
         nQueen.SearchAllResult();
 
+        SymbolMaze sm=new SymbolMaze("c:\\symbolMaze.txt"," ");
+        Graphic g=sm.G();
+        App.DepthFirstPath dfp=new App.DepthFirstPath(g,sm.GetStartIndex());
+        Iterable<Integer> list=dfp.pathTo(sm.GetEndIndex());
+        for(Integer i:list)
+        {
+            StdOut.print(String.format("index:%0,loc:%1",i,sm.name(i)));
+        }
 
     }
 }
