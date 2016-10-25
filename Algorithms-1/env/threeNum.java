@@ -1,5 +1,5 @@
-package Lesson1;
-import stdlib.*;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.In;
 
 /**
  * Created by Administrator on 2016/10/10.
