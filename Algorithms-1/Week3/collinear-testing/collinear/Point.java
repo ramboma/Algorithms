@@ -28,6 +28,14 @@ public class Point implements Comparable<Point> {
         this.x = x;
         this.y = y;
     }
+    public int X()
+    {
+        return this.x;
+    }
+    public int Y()
+    {
+        return this.y;
+    }
 
     /**
      * Draws this point to standard draw.
