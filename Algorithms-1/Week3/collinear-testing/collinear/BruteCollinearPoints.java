@@ -10,10 +10,10 @@ public class BruteCollinearPoints {
 
         if(points==null)
             throw new java.lang.NullPointerException();
-        Point[] copy=new Point[points.length];
-        for(int i=0;i<points.length;i++)
-            copy[i]=points[i];
+        Point[] copy=points.clone();
         Arrays.sort(copy);
+        if(hasDuplicate(copy))
+            throw new java.lang.IllegalArgumentException();
         for(int p=0;p<copy.length-3;p++)
             for(int q=p+1;q<copy.length-2;q++)
                 for(int r=q+1;r<copy.length-1;r++)
@@ -24,10 +24,19 @@ public class BruteCollinearPoints {
                         double c=copy[p].slopeTo(copy[s]);
                         if(a==b&&a==c)
                         {
-                            list.add(new LineSegment(copy[p],copy[s])); 
+                            if(copy[p].compareTo(copy[s])==-1)
+                                list.add(new LineSegment(copy[p],copy[s])); 
                         }
                     }
 
+    }
+    private boolean hasDuplicate(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                return true;
+            }
+        }
+        return false;
     }
     public int numberOfSegments()        // the number of line segments
     {
@@ -40,7 +49,7 @@ public class BruteCollinearPoints {
             ls[i]=list.get(i);
         return ls;
     }
-    public static void main(String[] args)
+    /*public static void main(String[] args)
     {
         In in=new In(args[0]);
         int N=in.readInt();
@@ -66,4 +75,5 @@ public class BruteCollinearPoints {
         }
         StdDraw.show();
     }
+    */
 }

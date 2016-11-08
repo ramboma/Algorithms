@@ -7,21 +7,16 @@ import java.util.Map;
 import java.util.HashMap;
 public class FastCollinearPoints {
     private ArrayList<LineSegment> list=new ArrayList<LineSegment>();
-    private Map<String,Integer> savedLine=new HashMap<String,Integer>();
     public FastCollinearPoints(Point[] points)    // finds all line segments containing 4 points
     {
 
         if(points==null)
             throw new java.lang.NullPointerException();
-        Point[] copy=new Point[points.length];
-        Point[] temp=new Point[points.length];
-        
-        for(int i=0;i<points.length;i++)
-        {
-            copy[i]=points[i];
-            temp[i]=points[i];
-        }
+        Point[] copy=points.clone();
+        Point[] temp=points.clone();
         Arrays.sort(copy);
+        if(hasDuplicate(copy))
+            throw new java.lang.IllegalArgumentException();
         for(int p=0;p<copy.length;p++)
         {
             Arrays.sort(temp,copy[p].slopeOrder());
@@ -33,46 +28,39 @@ public class FastCollinearPoints {
                 if(a==b)
                 {
                     count++;
+                    if(count>=2&&q>=temp.length-2)
+                    {
+                        //if(copy[p].compareTo(temp[q+1])==-1)
+                        list.add(new LineSegment(copy[p],temp[q+1]));
+                    }
                 }
                 else
                 {
-                if(count>3)
-                {
-                    saveLineMap(String.format("%d,%d,%d,%d",copy[p].X(),copy[p].Y(),temp[q].X(),temp[q].Y()),count);
+                    if(count>=2)
+                    {
+                        //if(copy[p].compareTo(temp[q])==-1)
+                            list.add(new LineSegment(copy[p],temp[q]));
+                    }
                     count=0;
                 }
-                }
-                
             }
         }
     }
-    private void saveLineMap(String key,Integer count)
-    {
-        if(!savedLine.containsKey(key))
-        {
-            savedLine.put(key,count);
+   private boolean hasDuplicate(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i + 1]) == 0) {
+                return true;
+            }
         }
-    }
+        return false;
+    } 
     public int numberOfSegments()        // the number of line segments
     {
         return list.size();
     }
     public LineSegment[] segments()                // the line segments
     {
-        LineSegment[] ls=new LineSegment[savedLine.keySet().size()];
-        int index=0;
-        for(String key: savedLine.keySet())
-        {
-            String[] split=key.split(",");
-            LineSegment line=new LineSegment(
-                    new Point(Integer.parseInt(split[0]),
-                                Integer.parseInt(split[1])),
-                    new Point(Integer.parseInt(split[2]),
-                                Integer.parseInt(split[3])));
-            ls[index]=line;
-            index++;
-        }
-        return ls;
+        return list.toArray(new LineSegment[list.size()]);
     }
     public static void main(String[] args)
     {
@@ -93,6 +81,7 @@ public class FastCollinearPoints {
         }
         StdDraw.show();
         FastCollinearPoints  fc=new FastCollinearPoints (points);
+        StdOut.println(String.format("segments=numerOfSegments,%b",fc.numberOfSegments()==fc.segments().length));
         for (LineSegment segment : fc.segments()) 
         {
             StdOut.println(segment);
@@ -100,4 +89,5 @@ public class FastCollinearPoints {
         }
         StdDraw.show();
     }
+    
 }

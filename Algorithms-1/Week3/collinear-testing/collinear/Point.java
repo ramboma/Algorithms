@@ -25,24 +25,18 @@ public class Point implements Comparable<Point> {
      */
     public Point(int x, int y) {
         /* DO NOT MODIFY */
+        //assert(x>=0&&x<=32767);
+        //assert(y>=0&&x<=32767);
         this.x = x;
         this.y = y;
     }
-    public int X()
-    {
-        return this.x;
-    }
-    public int Y()
-    {
-        return this.y;
-    }
-
     /**
      * Draws this point to standard draw.
      */
     public void draw() {
         /* DO NOT MODIFY */
         StdDraw.point(x, y);
+        //StdDraw.text(x,y,this.toString());
     }
 
     /**
@@ -69,10 +63,14 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         /* YOUR CODE HERE */
+        if(that==null)
+            throw new java.lang.NullPointerException();
         if(compareTo(that)==0)
             return Double.NEGATIVE_INFINITY ;
         if(x==that.x)
             return Double.POSITIVE_INFINITY;
+        if(y==that.y)
+            return +0.0f;
         return (double)(that.y-y)/(that.x-x);
     }
 
@@ -90,6 +88,8 @@ public class Point implements Comparable<Point> {
      */
     public int compareTo(Point that) {
         /* YOUR CODE HERE */
+        if(that==null)
+            throw new java.lang.NullPointerException();
         if(y<that.y) return -1;
         if(y==that.y&&x<that.x) return -1;
         if(x==that.x&&y==that.y) return 0;
@@ -134,8 +134,9 @@ public class Point implements Comparable<Point> {
     /**
      * Unit tests the Point data type.
      */
-    public static void main(String[] args) {
-        /* YOUR CODE HERE */
+    /*
+     public static void main(String[] args) {
+        // YOUR CODE HERE 
         Point p0=new Point(28000,1000);
         Point p1=new Point(13000,21000);
         Point p2=new Point(3000,26000);
@@ -148,7 +149,7 @@ public class Point implements Comparable<Point> {
 
         StdOut.println(p0.slopeTo(p1)==p0.slopeTo(p3));
         StdOut.println(p1.slopeTo(p2));
-
-
     }
+*/
+
 }
